@@ -1,6 +1,6 @@
 from conans import ConanFile, CMake, tools
 
-class TclapConan(conans.ConanFile):
+class TclapConan(ConanFile):
     name = "tclap"
     version = "1.2.2"
     settings = "os", "compiler", "build_type", "arch"
@@ -14,7 +14,7 @@ class TclapConan(conans.ConanFile):
     def source(self):
         zip_file = "tclap-%s.tar.gz" % self.version
         url = "https://iweb.dl.sourceforge.net/project/tclap/" + zip_file
-        tools.download(url)
+        tools.download(url, zip_file)
         tools.unzip(zip_file)
 
     def package(self):
