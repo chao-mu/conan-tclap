@@ -2,20 +2,15 @@ from conans import ConanFile, CMake, tools
 
 class TclapConan(ConanFile):
     name = "tclap"
-    version = "1.2.2"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False]}
-    default_options = {"shared": False}
-    generators = "cmake"
-
-    def file_path(self):
-        return "tclap-%s" % self.version
+    topics = ("conan", "tclap", "cli")
+    _source_subfolder = "tclap"
 
     def source(self):
-        zip_file = "tclap-%s.tar.gz" % self.version
-        url = "https://iweb.dl.sourceforge.net/project/tclap/" + zip_file
-        tools.download(url, zip_file)
-        tools.unzip(zip_file)
+        meta = self.conan_data["sources"][self.version]
+        zip_path = "tclap.tar.gz"
+        tools.download(meta["url"], zip_path)
+        tools.unzip(zip_path, self._source_subfolder)
 
     def package(self):
-        self.copy("*.h", dst="include/tclap", src=("%s/include/tclap" % self.file_path))
+        self.copy("include/tclap/*.h", dst=".", src=self._source_subfolder)
